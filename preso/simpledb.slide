@@ -1,0 +1,243 @@
+#+theme=white
+
+A Simple Load Balancer in Golang
+15 May 2020
+
+Suvankar Mazumder
+Gopher
+@smazumder
+http://github.com/smazumder
+
+
+* Overview 
+
+* Load Balancing Policies
+- Round robin
+- Weighted round robin
+- Least connections
+
+- Simple load balancer implements round-robin load balancing policy as a default implementation.
+- Will allow load balancing policies to be plugged in.
+.image slb_rr.jpeg 200 300
+
+* Architecture
+- DNS
+- TCP
+- TLS
+- HTTP
+- Proxies and Load balancing
+- CDN
+- Polling and streaming
+
+
+* Consistency 
+- Consistency Models
+- Failure detection
+- Leader election
+- Consensus - two phase commit
+- Consensus - Raft
+- Ordering
+
+*  Design Patterns
+
+*  Storage
+- Relational
+- Document
+- Columnar
+- Graph
+- Key-Value
+
+* Stability Patterns
+- Timeouts
+- Retry
+- Circuit breakers
+- Load shedding
+- Rate limiting
+- Health endpoint
+
+* Operations
+- Metrics
+- Logs
+- alerts
+- Watchdog
+- Chaos tests
+- SLOs
+
+* Design Process
+- Requirmements
+- Estimation
+- Interfaces
+- System desing
+- Risk reduction
+- Bottleneck Optimization
+
+
+* History
+
+- *2007* Idea is born @Google, Robert Griesemer, Rob Pike, Ken Thompson
+- *2008* Compilator implementation is started
+- *2009* First public release
+- *2010* Language of the year
+- *2011* Used in production by Google
+- *2012* Go 1.0
+- *2013* 1.1 & 1.2
+- *2014* 1.3 & 1.4
+- *2015* 1.5
+- *2016* 1.6 & 1.7
+
+* Language Design
+
+- Open source low-level language
+- Recognizably in the tradition of C
+- Built-in concurrency primitives
+- Very fast compilation
+- Scalable to large systems
+- Simple
+- UTF-8 by default
+
+* Criticisms
+
+- Lack of compile-time generics
+- No inheritance
+- GC
+- Lack of extenisbility (no method overloading, default parameters, ...)
+
+* Hello, world
+
+
+* Packages
+
+- Code is organized into packages
+- One package - many files (make use of that)
+- One directory - one package (excl. tests)
+- One file - exactly one package
+
+* Import
+
+- Each package is compiled *exactly* once
+- Non-used imports lead to compile-time errors 
+
+* Visibility
+- Exported (start with Upper-case letter)
+- private (start with lower-case letter)
+- That's it.
+
+* Basic types
+
+- bool
+- integer
+- float64
+- complex
+- string
+- array
+- struct
+- channel
+
+* Architecture independent
+
+- int8
+- int16
+- int32
+- int64
+
+- uint8
+- uint16
+- uint32
+- uint64
+
+* !Architecture independent
+- int
+- uint
+
+* Default values 
+
+
+* Casting
+
+- No surpise here
+  var i int = 42
+  var f float32 = float32(i)
+
+- No implicit casts
+  var fi float32 = f * i // compile-time error
+
+* if, for, switch
+
+
+* Functions
+
+- First class object
+- Can have multiple return values
+    func nextInt(b []byte, i int) (int, int) {
+        for ; i < len(b) && !isDigit(b[i]); i++ {        
+        }
+        x := 0
+        for ; i < len(b) && isDigit(b[i]); i++ {
+            x = x*10 + int(b[i]) - '0'
+        }
+    }
+- Lambdas
+- Clojures
+
+* Data structures
+- Arrays
+- Slices
+
+* Data structures
+- Maps
+
+* Data structures
+- new() vs make()
+    var p *[]int = new([]int)       // allocates slice structure; *p == nil; rarely useful
+    var v  []int = make([]int, 100) // the slice v now refers to a new array of 100 ints
+
+    // Unnecessarily complex:
+    var p *[]int = new([]int)
+    *p = make([]int, 100, 100)
+
+    // Idiomatic:
+    v := make([]int, 100)
+
+* Concurrency (Goroutines)
+
+- Independently executing function
+- Very very lightweight
+- Not a thread. Goroutines are mapped to OS threads by a scheduler.
+
+
+- But where is my message?
+
+* Concurrency (Channels)
+
+- Communication between Goroutines
+- Synchronization
+- Special syntax
+- First class objects
+
+
+* Types
+
+- User defined types
+    type Person struct{
+        Age  int
+        Name string
+    } 
+- Methods
+    func (p *Person) Greet() {
+        fmt.Println("Hello, I'm", p.Name)
+    }
+- Methods are applied to concrete types (receiver)
+- Define the behaviour of the type
+
+* Interfaces
+
+- Abstract type - cannot create objects of interface type 
+- Abstract type - can have variables of such type
+- First class objects
+- Satisfied implicitly
+    type Greeter interface {
+        Greet()
+    }
+
+* Interfaces
+
