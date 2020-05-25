@@ -1,6 +1,7 @@
+fmt:
+	gofmt -w -s *.go
 build:
 	go build simplelb.go
-
 clean:
 	rm -rf simplelb
 run:
